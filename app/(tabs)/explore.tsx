@@ -1,110 +1,169 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+// import React, { useState, useEffect } from "react";
+// import { ScrollView, View, Text, TextInput, FlatList, TouchableOpacity, Image } from "react-native";
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
+// const dummyData = [
+//   { id: "1", title: "Guitar Basics", category: "Guitar", image: "https://via.placeholder.com/150" },
+//   { id: "2", title: "Piano Intermediate", category: "Piano", image: "https://via.placeholder.com/150" },
+//   { id: "3", title: "Drums for Beginners", category: "Drums", image: "https://via.placeholder.com/150" },
+//   { id: "4", title: "Advanced Guitar Techniques", category: "Guitar", image: "https://via.placeholder.com/150" },
+//   // add more items as needed
+// ];
 
-export default function TabTwoScreen() {
+// const categories = ["All", "Guitar", "Piano", "Drums"];
+
+// export default function explore() {
+//   const [searchQuery, setSearchQuery] = useState("");
+//   const [selectedCategory, setSelectedCategory] = useState("All");
+//   const [filteredData, setFilteredData] = useState(dummyData);
+
+//   useEffect(() => {
+//     let data = dummyData;
+
+//     if (selectedCategory !== "All") {
+//       data = data.filter((item) => item.category === selectedCategory);
+//     }
+
+//     if (searchQuery.trim()) {
+//       data = data.filter((item) =>
+//         item.title.toLowerCase().includes(searchQuery.toLowerCase())
+//       );
+//     }
+
+//     setFilteredData(data);
+//   }, [searchQuery, selectedCategory]);
+
+//   return (
+//     <ScrollView className="flex-1 bg-black px-4 pt-5">
+      
+//       {/* Search bar */}
+//       <TextInput
+//         placeholder="Search content..."
+//         placeholderTextColor="#888"
+//         value={searchQuery}
+//         onChangeText={setSearchQuery}
+//         className="bg-gray-800 rounded-xl px-4 py-2 mb-4 text-white"
+//       />
+
+//       {/* Categories */}
+//       <View className="flex-row mb-4">
+//         {categories.map((cat) => (
+//           <TouchableOpacity
+//             key={cat}
+//             onPress={() => setSelectedCategory(cat)}
+//             className={`px-4 py-2 rounded-full mr-2 ${
+//               selectedCategory === cat ? "bg-blue-600" : "bg-gray-700"
+//             }`}
+//           >
+//             <Text className="text-white">{cat}</Text>
+//           </TouchableOpacity>
+//         ))}
+//       </View>
+
+//       {/* Content List */}
+//       <FlatList
+//         data={filteredData}
+//         keyExtractor={(item) => item.id}
+//         numColumns={2}
+//         columnWrapperStyle={{ justifyContent: "space-between", marginBottom: 16 }}
+//         renderItem={({ item }) => (
+//           <View className="bg-slate-900 rounded-lg p-4 w-[48%]">
+//             <Image
+//               source={{ uri: item.image }}
+//               className="h-24 w-full rounded-md mb-2"
+//               resizeMode="cover"
+//             />
+//             <Text className="text-white font-semibold">{item.title}</Text>
+//             <Text className="text-gray-400 text-sm">{item.category}</Text>
+//           </View>
+//         )}
+//         showsVerticalScrollIndicator={false}
+//       />
+//     </ScrollView>
+//   );
+// }
+
+
+import { View, Text, ScrollView, TextInput, FlatList, TouchableOpacity, Image } from 'react-native';
+import { useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
+
+const categories = ["Scales", "Chords", "Rhythm", "Theory", "Ear Training"];
+const trendingLessons = [
+  { title: "C Major Scale", level: "Beginner", duration: "3m" },
+  { title: "Power Chords", level: "Intermediate", duration: "5m" },
+];
+const recommendedLessons = [
+  { title: "Left Hand Coordination - Piano", duration: "4m" },
+  { title: "Snare Roll Practice - Drums", duration: "6m" },
+];
+const otherInstruments = ["Saxophone", "Violin", "Trumpet"];
+
+export default function Explore() {
+  const [search, setSearch] = useState("");
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
+    <ScrollView className="flex-1 bg-black px-4 pt-5">
+      {/* Search Bar */}
+      <View className="flex-row items-center bg-slate-800 rounded-xl px-3 py-2 mb-5">
+        <Ionicons name="search" size={20} color="white" />
+        <TextInput
+          className="ml-2 flex-1 text-white"
+          placeholder="Search lessons..."
+          placeholderTextColor="#aaa"
+          value={search}
+          onChangeText={setSearch}
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+      </View>
+
+      {/* Categories */}
+      <Text className="text-white text-lg font-semibold mb-2">Categories</Text>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-5">
+        {categories.map((category, idx) => (
+          <TouchableOpacity
+            key={idx}
+            className="bg-slate-700 px-4 py-2 rounded-full mr-3"
+          >
+            <Text className="text-white">{category}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+
+      {/* Trending Lessons */}
+      <Text className="text-white text-lg font-semibold mb-3">Trending Lessons</Text>
+      {trendingLessons.map((lesson, idx) => (
+        <View
+          key={idx}
+          className="bg-slate-800 p-4 rounded-xl mb-3"
+        >
+          <Text className="text-white font-semibold text-base">{lesson.title}</Text>
+          <Text className="text-gray-400 text-sm">{lesson.level} • {lesson.duration}</Text>
+        </View>
+      ))}
+
+      {/* Recommended */}
+      <Text className="text-white text-lg font-semibold mt-4 mb-3">Recommended for You</Text>
+      {recommendedLessons.map((lesson, idx) => (
+        <View
+          key={idx}
+          className="bg-slate-800 p-4 rounded-xl mb-3"
+        >
+          <Text className="text-white font-semibold text-base">{lesson.title}</Text>
+          <Text className="text-gray-400 text-sm">{lesson.duration}</Text>
+        </View>
+      ))}
+
+      {/* Other Instruments */}
+      <Text className="text-white text-lg font-semibold mt-4 mb-3">Explore Other Instruments</Text>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {otherInstruments.map((instrument, idx) => (
+          <TouchableOpacity
+            key={idx}
+            className="bg-slate-700 px-4 py-2 rounded-full mr-3"
+          >
+            <Text className="text-white">{instrument}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-});
